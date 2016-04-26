@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Simple Messenger</string>
+
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_button">Login</string>
+
+    <string name="chat_send">SEND</string>
+    <string name="chat_message"></string>
+
+
+
+
+</resources>
