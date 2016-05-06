@@ -31,25 +31,25 @@ public class DBHelper extends SQLiteOpenHelper {
     *
     * CREATE TABLE: message
     *   seqno INTEGER (PRIMARY KEY)
-    *   fromuser text
-    *   touser text
+    *   from text
+    *   to text
     *   message text
-    *   msgdate text
+    *   datetime text
     * */
     @Override
     public void onCreate(SQLiteDatabase database) {
         String sql;
-        sql = "CREATE TABLE parm (id INTEGER PRIMARY KEY, ver TEXT);";
-        database.execSQL(sql);
-        sql = "INSERT INTO `parm` VALUES(1,'20140701');";
-        database.execSQL(sql);
-        sql = "CREATE TABLE message(seqno INTEGER PRIMARY KEY AUTOINCREMENT ,fromuser text, touser text,message text,msgdate text);";
+//        sql = "CREATE TABLE parm (id INTEGER PRIMARY KEY, ver TEXT);";
+//        database.execSQL(sql);
+//        sql = "INSERT INTO `parm` VALUES(1,'20140701');";
+//        database.execSQL(sql);
+        sql = "CREATE TABLE message(seqno INTEGER PRIMARY KEY AUTOINCREMENT ,from text, to text,message text,datetime text);";
         database.execSQL(sql);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase database, int oldver, int newver) {
-        database.execSQL("DROP TABLE IF EXISTS parm");
+//        database.execSQL("DROP TABLE IF EXISTS parm");
         database.execSQL("DROP TABLE IF EXISTS message");
         onCreate(database);
     }

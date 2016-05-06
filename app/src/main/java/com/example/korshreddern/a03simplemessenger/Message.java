@@ -1,21 +1,26 @@
 package com.example.korshreddern.a03simplemessenger;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 /**
  * Created by Korshreddern on 21-Apr-16.
  */
 public class Message {
     public String seqno;
-    public String fromuser;
-    public String touser;
+    public String datetime;
+    public String from;
+    public String to;
     public String message;
-    public String msgdate;
+
 
     public Message() {
         this.seqno = "";
-        this.fromuser = "";
-        this.touser = "";
+        this.datetime = "";
+        this.from = "";
+        this.to = "";
         this.message = "";
-        this.msgdate = "";
     }
 
     public String getSeqno() {
@@ -26,20 +31,20 @@ public class Message {
         this.seqno = seqno;
     }
 
-    public String getFromuser() {
-        return fromuser;
+    public String getFrom() {
+        return from;
     }
 
-    public void setFromuser(String fromuser) {
-        this.fromuser = fromuser;
+    public void setFrom(String from) {
+        this.from = from;
     }
 
-    public String getTouser() {
-        return touser;
+    public String getTo() {
+        return to;
     }
 
-    public void setTouser(String touser) {
-        this.touser = touser;
+    public void setTo(String to) {
+        this.to = to;
     }
 
     public String getMessage() {
@@ -50,11 +55,61 @@ public class Message {
         this.message = message;
     }
 
-    public String getMsgdate() {
-        return msgdate;
+    public String getDatetime() {
+        return datetime;
     }
 
-    public void setMsgdate(String msgdate) {
-        this.msgdate = msgdate;
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+
+    public String getSeqNum(Context context) {
+        DBHelper dbhelper=new DBHelper(context);
+        SQLiteDatabase db=dbhelper.getReadableDatabase();
+        String sql="SELECT seqno,from,to,message,datetime FROM message ORDER BY seqno";
+        Cursor sqlList = db.rawQuery(sql, null);
+
+        String seqNum = "";
+
+        if (! sqlList.moveToFirst()) {
+            return "0";
+        }
+        do {
+            seqNum = sqlList.getString(0);
+        } while (sqlList.moveToNext());
+        sqlList.close();
+        db.close();
+        return seqNum;
+    }
+
+    public void addMessageToDB(Context context, Message msg) {
+        DBHelper dbhelper=new DBHelper(context);
+        SQLiteDatabase db=dbhelper.getWritableDatabase();
+        String sql="INSERT INTO message (from,to,message,datetime) VALUES(?,?,?,?)";
+        db.execSQL(sql, new String[] {
+                msg.from,
+                msg.to,
+                msg.message,
+                msg.datetime
+        });
+        db.close();
+    }
+
+    public void getMessage(Context context, Message msg) {
+        DBHelper dbhelper=new DBHelper(context);
+        SQLiteDatabase db=dbhelper.getWritableDatabase();
+        String sql="SELECT INTO message (from,to,message,datetime) VALUES(?,?,?,?)";
+        db.execSQL(sql, new String[] {
+                msg.from,
+                msg.to,
+                msg.message,
+                msg.datetime
+        });
+        db.close();
+    }
+
+    public void sendMessage(Context context, String session_id) {
+
     }
 }
